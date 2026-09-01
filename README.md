@@ -53,6 +53,19 @@ Also worth knowing before you start:
 
 ## Install
 
+### Easiest way — let Claude do it
+
+Paste this into Claude Code or Cowork:
+
+> Set up the job search skill from https://github.com/Shiviansh/job-market-recon — read the README
+> and SKILL.md, install it, and walk me through filling in my profile.
+
+Claude will read the repo, put the files where they belong, create the folders it needs, and ask you
+the profile questions one at a time instead of leaving you to fill in a JSON file alone. This is the
+recommended route unless you specifically want to do it by hand.
+
+### By hand
+
 **Claude Code**
 
 ```bash
