@@ -1,0 +1,24 @@
+# PERSONAL DATA — never commit
+config/profile.json
+config/profile.*.json
+!config/profile.template.json
+
+tracker/
+digests/
+outreach/
+resumes/
+*.pdf
+*.docx
+
+# Anything with a person's name in the filename
+*_resume_*
+*_cv_*
+
+# Local scratch
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+node_modules/
+__pycache__/
+.venv/

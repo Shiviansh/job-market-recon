@@ -1,0 +1,113 @@
+{
+  "_readme": "Copy to profile.json and fill in. profile.json is gitignored - never commit it. Every value below is a placeholder.",
+
+  "identity": {
+    "full_name": "YOUR NAME",
+    "email": "you@example.com",
+    "phone": "+91-XXXXXXXXXX",
+    "location": "City, State",
+    "institute": "Your college or university",
+    "degree": "B.Tech Computer Science",
+    "cgpa": 0.0,
+    "grad_year": 2027,
+    "current_year_of_study": 4,
+    "links": {
+      "github": "https://github.com/YOURHANDLE",
+      "linkedin": "https://linkedin.com/in/YOURHANDLE",
+      "portfolio": ""
+    }
+  },
+
+  "target": {
+    "primary": "Summer 2027 internship in <field>",
+    "secondary": "Full-time from mid-2027",
+    "preferred_cities": ["Bengaluru", "Hyderabad", "Pune", "Remote"],
+    "open_to_relocate": true,
+    "remote_ok": true
+  },
+
+  "titles_match": [
+    "List the exact job titles you want",
+    "Include variants - boards are inconsistent",
+    "e.g. ML Engineer Intern, Machine Learning Intern, Applied AI Intern"
+  ],
+
+  "search_vocabulary": {
+    "_note": "The single highest-leverage field. Give 3+ phrasings per concept. Sites match very differently - see the vocabulary table in SKILL.md.",
+    "primary_terms": ["term one", "term two", "term three"],
+    "alternate_phrasings": ["two-word technical phrase", "category name a board might use"],
+    "avoid": ["words that swamp the match on some boards, e.g. 'fresher' or 'internship' alone"]
+  },
+
+  "skills": {
+    "languages": [],
+    "frameworks": [],
+    "tools": [],
+    "domain": []
+  },
+
+  "evidence_bank": {
+    "_note": "One entry per project or role, written as a single factual sentence with a number in it where possible. These get quoted into applications, so they must be true and specific. 'Built an X that did Y, measured at Z' beats 'experienced in X'.",
+    "project_one": "",
+    "project_two": ""
+  },
+
+  "known_gaps": {
+    "_note": "List what you do NOT have. The skill states these honestly in every recorded role rather than hiding them. This is a feature - it stops you wasting applications and stops the tool inflating your resume.",
+    "gaps": ["e.g. no Kubernetes", "no published paper", "no production ML at scale"]
+  },
+
+  "hard_filters": {
+    "must_match_any_keyword": ["keywords that must appear somewhere in the listing"],
+    "reject_if_title_contains": ["senior", "sr.", "staff", "principal", "lead", "architect", "head of", "vp ", "chief", "manager", "director"],
+    "reject_if_jd_contains": [
+      "phd required",
+      "5+ years", "6+ years", "7+ years", "8+ years", "10+ years",
+      "security clearance",
+      "registration fee", "training fee", "pay to apply", "placement guarantee"
+    ],
+    "max_years_experience_required": 1,
+    "allowed_grad_years": [2026, 2027, 2028],
+    "reject_if_batch_stated_and_excludes_you": true,
+    "reject_domains": ["sales", "marketing", "bpo", "customer support", "data entry"],
+    "flag_dont_reject": [
+      "CGPA cutoff above yours - many are guidelines, flag as a stretch",
+      "Masters preferred - flag as a stretch"
+    ]
+  },
+
+  "scoring": {
+    "weights": {
+      "title_match": 25,
+      "core_skill_overlap": 30,
+      "domain_fit": 15,
+      "seniority_fit": 15,
+      "location_fit": 7,
+      "employer_quality": 8
+    },
+    "auto_queue_threshold": 65,
+    "show_but_flag_threshold": 50,
+    "discard_below": 50,
+    "bonus_signals": ["JD phrases that mean an unusually good match for you specifically"]
+  },
+
+  "pay_floor": {
+    "internship_per_month": 0,
+    "fulltime_per_year": 0,
+    "currency": "INR",
+    "_note": "Run the market survey in SKILL.md Phase 1 BEFORE committing to a floor. In some fields a floor of 25000/month removes the entire market rather than the bottom of it. Know which case you are in.",
+    "keep_undisclosed_pay_from_credible_employers": true
+  },
+
+  "limits": {
+    "max_applications_per_day": 15,
+    "followup_after_days": 7,
+    "max_followups": 1
+  },
+
+  "digest": {
+    "email_to": "",
+    "_note": "Leave blank to write digests to file only. Setting this makes the skill email you - it never emails employers.",
+    "send_even_when_zero_new": true
+  }
+}

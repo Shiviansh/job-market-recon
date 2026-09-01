@@ -1,0 +1,157 @@
+{
+  "_readme": "Site adapters for India. Each entry records what the site is good at, what breaks on it, and which query shapes work. Findings are from live sweeps in Aug 2026 across two profiles (hardware/embedded and applied AI). Sites change - treat these as starting points and update the yield ledger as you learn.",
+  "_contributing": "To add a region, copy this file to sites.<region>.json and rewrite the entries. The schema is what matters, not the sites.",
+
+  "sites": [
+    {
+      "id": "naukri",
+      "name": "Naukri",
+      "url": "https://www.naukri.com",
+      "login_required": false,
+      "has_pay_filter": true,
+      "pay_filter_note": "The single most valuable control on any Indian board. Shows counts per stipend band before you apply the filter - this is what the market survey in Phase 1 runs on.",
+      "url_patterns": {
+        "category": "https://www.naukri.com/{keyword-with-hyphens}-jobs",
+        "internship_category": "https://www.naukri.com/{keyword-with-hyphens}-internship-jobs"
+      },
+      "works_for": ["embedded", "robotics", "VLSI", "machine learning", "generative AI"],
+      "quirks": [
+        "Highly vocabulary-sensitive. 'RTL design verification fresher' returned dental designers and loan officers; 'embedded systems internship' returned 120 clean results on the same day.",
+        "Job cards use selector .srp-jobtuple-wrapper with .title, .comp-name, .expwdth, .locWdth."
+      ],
+      "verdict": "Best all-round Indian board once the query is right. Do not write it off on one bad search."
+    },
+    {
+      "id": "glassdoor_in",
+      "name": "Glassdoor India",
+      "url": "https://www.glassdoor.co.in",
+      "login_required": false,
+      "login_note": "Browsing and reading listings works signed out. Sign-in is only needed to apply.",
+      "has_pay_filter": true,
+      "url_patterns": {
+        "search": "https://www.glassdoor.co.in/Job/jobs.htm?sc.keyword={keyword}&locT=N&locId=115"
+      },
+      "works_for": ["embedded", "robotics", "machine learning", "generative AI"],
+      "quirks": [
+        "URLs contain commas. Wrap them in double quotes in CSV or the field splits and the link truncates.",
+        "The slug form /Job/india-{keyword}-jobs-SRCH_IL.0,5_IN115_KO6,29.htm encodes the keyword's character position in KO6,29 - change the keyword and those numbers must change too, or the page 404s. Prefer the sc.keyword query form above.",
+        "Deep per-listing URLs often 404 when opened directly. Record links at search level.",
+        "Shows company star ratings on the card - useful quality signal no other board gives."
+      ],
+      "verdict": "Consistently strong across both profiles tested. Good targeting, no login wall."
+    },
+    {
+      "id": "prosple_in",
+      "name": "Prosple India",
+      "url": "https://in.prosple.com",
+      "login_required": false,
+      "has_pay_filter": false,
+      "url_patterns": {
+        "search": "https://in.prosple.com/search-jobs?keywords={keyword}"
+      },
+      "works_for": ["graduate schemes", "structured internships", "large-employer intakes"],
+      "quirks": [
+        "Best metadata of any board tested: apply-by date, vacancy count, salary, start date, work rights, and which academic disciplines the employer hires from. Nothing else exposes that last field.",
+        "Extreme vocabulary sensitivity. 'machine learning' returned 0; 'AI' returned 87; 'machine learning intern' returned 40. 'embedded' returned 2; 'electronics' returned 18.",
+        "Sits behind a Cloudflare check that clears itself in roughly 20 seconds.",
+        "Anchor extraction can be blocked by a privacy guard - cite the search URL rather than per-listing links."
+      ],
+      "verdict": "Small volume, exceptional metadata. Its work-rights field alone will save you wasted applications."
+    },
+    {
+      "id": "internshala",
+      "name": "Internshala",
+      "url": "https://internshala.com",
+      "login_required": false,
+      "login_note": "A signup modal appears on load - dismiss it. Do not create an account.",
+      "has_pay_filter": true,
+      "url_patterns": {
+        "category": "https://internshala.com/internships/{keyword}-internship/"
+      },
+      "works_for": ["student internships broadly"],
+      "quirks": [
+        "Job cards use selector .individual_internship with .job-internship-name, .company-name, .row-1-item span.",
+        "Pay skews very low. Sample it against your floor before investing time."
+      ],
+      "verdict": "High volume of student roles, low pay density. Value depends entirely on your floor."
+    },
+    {
+      "id": "weekday",
+      "name": "Weekday",
+      "url": "https://jobs.weekday.works",
+      "login_required": false,
+      "has_pay_filter": false,
+      "works_for": ["startup roles aggregated from company ATS systems"],
+      "quirks": [
+        "Aggregates postings from company applicant-tracking systems, so listings are often closer to source than on big boards.",
+        "Its own board is far richer than a search engine's index of it - filter URLs work without the quota-limited AI search box.",
+        "Seniority filter value 'entry_level' returns nothing; only 'intern_trainee' works.",
+        "LISTINGS GO STALE. On one check, four of four sampled links were dead - closed cycles, wrong country, or filled. Always open before recording."
+      ],
+      "verdict": "Rich source, unreliable freshness. Verification is mandatory here more than anywhere."
+    },
+    {
+      "id": "foundit",
+      "name": "Foundit",
+      "url": "https://www.foundit.in",
+      "login_required": false,
+      "has_pay_filter": false,
+      "url_patterns": {
+        "search": "https://www.foundit.in/srp/results?query={keyword}&locations=India"
+      },
+      "quirks": [
+        "Result counts are inflated - a narrow query can report thousands because the count reflects a broader category.",
+        "The Fresher/0-years filter does not discriminate well; it still returns Principal and Team Lead titles.",
+        "Cards are JS-rendered with no stable per-job URLs - record links at search level."
+      ],
+      "verdict": "Low yield, but responds to precise vocabulary. Worth one query, not five."
+    },
+    {
+      "id": "cutshort",
+      "name": "Cutshort",
+      "url": "https://cutshort.io",
+      "login_required": false,
+      "url_patterns": {
+        "category": "https://cutshort.io/jobs/{keyword}-jobs"
+      },
+      "quirks": [
+        "Category pages are long SEO pages. The first screen is unrepresentative - scroll and extract from the DOM before judging.",
+        "Some listings state 'Tier 1 college only' explicitly. Real filter, worth knowing exists.",
+        "Skews experienced and software-heavy."
+      ],
+      "verdict": "Easy to wrongly write off. Was recorded as dry, then found to hold 51 embedded and 31 robotics listings on a proper pass."
+    },
+    {
+      "id": "hirist",
+      "name": "Hirist",
+      "url": "https://www.hirist.tech",
+      "login_required": true,
+      "login_note": "Listing detail pages require an account. Search results are readable signed out.",
+      "quirks": [
+        "Has hardware and AI categories with real volume, but the seniority distribution kills it for students - 19 of 20 page-one embedded listings were 5-25 years.",
+        "Fresher-oriented queries returned literally zero across three phrasings."
+      ],
+      "verdict": "Experienced-hire platform. Not useful for students, but the reason is seniority, not absence of listings."
+    },
+    {
+      "id": "shine",
+      "name": "Shine",
+      "url": "https://www.shine.com",
+      "login_required": false,
+      "quirks": [
+        "Result counts are heavily inflated - tens of thousands reported for narrow queries.",
+        "Severe query pollution: the word 'internship' dominates the match. 'vlsi internship' returned digital-marketing roles; 'llm engineer' collapsed into electrical distribution engineers.",
+        "Works only with plain two-word technical phrases, e.g. 'embedded systems'."
+      ],
+      "verdict": "Weakest of the nine. Usable for hardware with exact phrasing; effectively unusable for AI queries."
+    }
+  ],
+
+  "not_scheduled_but_tested": [
+    { "name": "Wellfound", "note": "Excellent card metadata - experience, pay, remote/office, company stage, all visible before clicking. Strong for software and AI, weak for hardware (its Hardware Engineer category returns IT Ops and DevOps roles)." },
+    { "name": "Instahyre", "note": "Large volume with an internships filter, but detail and application need an account." },
+    { "name": "Y Combinator jobs", "note": "No internships at all - full-time only. Occasionally carries well-paid India engineering roles." },
+    { "name": "Unstop", "note": "Has a graduating-year filter, which is useful, but low technical density." },
+    { "name": "WeWorkRemotely", "note": "US-centric remote roles. Low relevance for India-based candidates." }
+  ]
+}
