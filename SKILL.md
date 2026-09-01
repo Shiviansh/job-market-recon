@@ -19,10 +19,17 @@ every candidate link before recording it — because a large share of what board
 
 1. Copy `config/profile.template.json` to `config/profile.json` and fill it in.
 2. Pick a site config from `config/` (India ships by default; see `sites.india.json`).
-3. Create empty `tracker/job_pool.csv` and `tracker/platform_yield.md`.
+3. Make sure `tracker/` and `digests/` directories exist. Create them if not.
+
+On the first run, if `tracker/job_pool.csv` or `tracker/platform_yield.md` do not exist, create them
+— the pool with a header row, the ledger empty. Do not treat their absence as an error.
 
 `config/profile.json` and everything under `tracker/` and `digests/` are gitignored. Keep them that
 way — they contain personal data.
+
+**This skill needs browser or web-fetch access.** It opens job boards, reads their stipend filters
+and verifies every link. If those tools are unavailable, say so and stop rather than producing a
+digest from memory or guesswork.
 
 ---
 

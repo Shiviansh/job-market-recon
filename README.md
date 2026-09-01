@@ -25,23 +25,66 @@ student setting the same floor for VLSI eliminates *all* of it. Those need compl
 strategies, and no job board will tell you which situation you are in.
 
 **Full findings: [docs/MARKET-REPORT-INDIA-2026.md](docs/MARKET-REPORT-INDIA-2026.md)**
+**See what a run produces: [docs/EXAMPLE-OUTPUT.md](docs/EXAMPLE-OUTPUT.md)**
 
 ---
 
-## What it does
+## Requirements — read before setting up
 
-1. **Market survey.** Reads pay-band counts off each board's own stipend filter and reports the
-   distribution for your field. Run it before you commit to a salary floor.
-2. **Vocabulary probing.** Tries several phrasings per site before concluding anything, because
-   boards match wildly differently — see below.
-3. **Filter and score** against a profile you define, with hard rejections for batch year,
-   experience ceiling, seniority and training-mill patterns.
-4. **Verify every listing** by opening it before recording. A large fraction of board results are
-   dead.
-5. **Deduplicate** against a running pool so each digest contains only genuinely new roles.
-6. **Keep a yield ledger** recording which sites produce, which queries worked, and — importantly —
-   which of its own past verdicts turned out wrong.
-7. **Digest** to file, and optionally by email to yourself.
+**You need Claude with the ability to browse the web.** This works in:
+
+- **Claude Code** (CLI)
+- **Claude Cowork** (desktop app)
+- Any Claude setup with a browser or web-fetch tool available
+
+**It will not work by pasting `SKILL.md` into a normal claude.ai chat.** The skill opens job boards,
+reads stipend filters and verifies links. Without browser access it has nothing to work with.
+
+Also worth knowing before you start:
+
+- **Setup takes about 15 minutes** — mostly filling in your profile honestly.
+- **A full nine-site sweep takes a while** and is not cheap in tokens. Every listing gets opened and
+  verified, which is the point, but it isn't instant.
+- **It drafts; it does not apply.** No forms submitted, no emails to employers.
+- **Nothing here is a database.** It reads live job boards. If a board changes its layout, the notes
+  in `config/sites.india.json` may go stale — update them and open a PR.
+
+---
+
+## Install
+
+**Claude Code**
+
+```bash
+mkdir -p ~/.claude/skills/job-market-recon
+cp SKILL.md ~/.claude/skills/job-market-recon/
+cp -r config ~/.claude/skills/job-market-recon/
+```
+
+**Claude Cowork (Windows)** — put `SKILL.md` and the `config` folder in your skills directory, then
+restart the app. If you're unsure where that is, ask Claude "where do I install a skill?" inside the
+app.
+
+**Then, in the same folder you want to work in:**
+
+```bash
+mkdir -p tracker digests
+```
+
+Copy `config/profile.template.json` to `config/profile.json` and fill it in. The template has
+comments explaining every field.
+
+Then just ask Claude: **"run the market survey for my profile"** or **"run a job search."**
+
+---
+
+## First run
+
+Do the **market survey** first, before any job searching. It takes about ten minutes and it may
+change what you do next more than any individual listing will. It reads the pay-band counts on each
+board's own stipend filter and reports the distribution for your field.
+
+Then run a sweep. The first one will find a lot; later ones only surface what's new.
 
 ---
 
@@ -59,22 +102,26 @@ and had to be reinstated.
 On several boards a common word — *internship*, *fresher* — dominates the match and swamps the
 technical term. The skill now tries at least three phrasings per site and records which one worked.
 
+Two more verdicts were wrong for a different reason entirely: a board recorded as having "no hardware
+category" had 126 embedded listings, of which 19 in 20 wanted 5–25 years' experience. Another
+recorded as "dry" had 51 listings on a page that needed scrolling. Both corrections are in
+[docs/METHOD.md](docs/METHOD.md).
+
 ---
 
-## Setup
+## Files
 
 ```
-config/profile.template.json  →  copy to config/profile.json and fill in
-config/sites.india.json       →  or write your own for another region
-tracker/                      →  created on first run, gitignored
-digests/                      →  created on first run, gitignored
+SKILL.md                            the skill itself — install this
+config/profile.template.json        copy to profile.json and fill in
+config/sites.india.json             nine site adapters: what works, what breaks
+docs/MARKET-REPORT-INDIA-2026.md    the stipend survey
+docs/EXAMPLE-OUTPUT.md              what a run looks like
+docs/METHOD.md                      what broke and why
 ```
 
-Install `SKILL.md` into your Claude skills directory, fill in the profile, and ask Claude to run a
-job search.
-
-**`config/profile.json`, `tracker/` and `digests/` are gitignored.** They contain personal data.
-Keep them that way.
+`config/profile.json`, `tracker/` and `digests/` are gitignored. They contain personal data. Keep
+them that way.
 
 ---
 
@@ -97,8 +144,8 @@ each site's terms; you are responsible for how you use it.
 
 ## Adding your region
 
-Copy `config/sites.india.json`, rewrite the entries, and open a PR. Each site entry records what it
-is good for, what breaks on it, and which query shapes work — that accumulated per-site knowledge is
+Copy `config/sites.india.json`, rewrite the entries, and open a PR. Each entry records what a site is
+good for, what breaks on it, and which query shapes work — that accumulated per-site knowledge is
 most of the value here, and it only grows if people contribute it.
 
 The market survey is worth running anywhere. If you produce pay-distribution data for another field
